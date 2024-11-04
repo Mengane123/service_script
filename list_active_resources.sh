@@ -16,6 +16,16 @@ fi
 aws_region=$1
 aws_service=$(echo "$2" | tr '[:upper:]' '[:lower:]') #"$2" means what ever the second argument will be , if there is any spaces between , that will be considered as string 
 
+#As these command run on aws cli so it needs to be installed 
+#To check if the aws cli is installed or not 
+if ! command -v aws &> /dev/null; then #here "command" is the built-in command that is checking is there any command called 'aws' (means aws cli installed or not)
+	echo"AWS CLI is not installed . Please install it and try again"
+	exit 1
+fi
 
+#check if the aws cli is configured or not 
+
+
+	
 
 
