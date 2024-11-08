@@ -23,8 +23,56 @@ if ! command -v aws &> /dev/null; then #here "command" is the built-in command t
 	exit 1
 fi
 
-#check if the aws cli is configured or not 
+#check if the aws cli is configured or not
+if [ ! -d ~/.aws ]; then #this condition checks if the .aws directory is present in the home directory , if not configure or install it and try again . we could have also written this condition as "if text ! -d ~/.aws;" 
+	echo "Aws is not configured . First configure it and try again"
+	exit 1
+fi
 
+#listing the resouces of the region using switch statements 
+case $aws_service in
+
+	ec2)
+		echo "Listing ec2 instances in $aws_region"
+		aws ec2 describe-instances --region $aws_region
+		;;
+
+	rds)
+		echo "Listing rds instances in $aws_region"
+		aws rds describe-db-instances --region $aws_region
+		;;
+	s3)
+                echo "Listing S3 Buckets in $aws_region"
+                aws s3api list-buckets --region $aws_region
+                ;;
+	
+	cloudfront)
+		echo "Listing cloudfront distributions in $aws_region"
+		aws cloudfront list-distributions --region $aws_region
+		;;
+
+	iam)
+		echo "Listing IAM user in the region $aws_region"
+		aws iam list-users --region $aws_region
+		;;
+
+	*)
+		echo "Invalid service . Check again and try " #if the any of the service is not found or any of the commands does not executes
+		exit 1
+		;;
+esac
+	
+
+
+
+
+
+
+
+
+
+
+#will later on user cron jobs(scheduling script) and email reporting ()
 
 	
 
